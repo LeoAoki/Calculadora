@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./calculadora.component.css']
 })
 export class CalculadoraComponent implements OnInit {
-  resultadoExibir: string = ""
+  auxiliar: string = ""
+  exibicao: string = ""
   valor1: number = 0
   valor2: number = 0
   operacao: string = ""
+  i: boolean = false
 
   constructor() { }
 
@@ -17,52 +19,57 @@ export class CalculadoraComponent implements OnInit {
   }
 
   addNumero(numero: string) {
-    this.resultadoExibir += numero;
-    if(this.valor1 == 0)
-      this.valor1 = Number(this.resultadoExibir)
+    this.auxiliar += numero
+    this.exibicao += numero
+    if(!this.i)
+      this.valor1 = Number(this.auxiliar)
     else {
-      this.valor2 = Number(this.resultadoExibir)
+      this.valor2 = Number(this.auxiliar)
     }
   }
 
   addOperacao(operacao: string) {
-    this.resultadoExibir = ""
+    this.auxiliar = ""
+    this.exibicao = this.exibicao + " " + operacao + " "
     this.operacao = operacao
+    this.i = true
   }
 
   resultado() {
     switch(this.operacao) {
       case "+": {
-          this.resultadoExibir = String(this.valor1 + this.valor2)
+        this.exibicao = String(this.valor1 + this.valor2)
         break;
       }
       case "-": {
-        this.resultadoExibir = String(this.valor1 - this.valor2)
+        this.exibicao = String(this.valor1 - this.valor2)
          break;
       }
       case "*": {
-        this.resultadoExibir = String(this.valor1 * this.valor2)
+        this.exibicao = String(this.valor1 * this.valor2)
         break;
       }
       case "/": {
-        this.resultadoExibir = String(this.valor1 / this.valor2)
+        this.exibicao = String(this.valor1 / this.valor2)
         break;
       }
       default: {
       break;
       }
     }
-    this.valor1 = Number(this.resultadoExibir)
+    this.valor1 = Number(this.exibicao)
     this.valor2 = 0
+    this.auxiliar = ""
     this.operacao = ""
-
   }
 
   limpar() {
-    this.resultadoExibir = ""
+    this.auxiliar = ""
+    this.exibicao = ""
     this.valor1 = 0
     this.valor2 = 0
     this.operacao = ""
+    this.i = false
   }
 
 }
